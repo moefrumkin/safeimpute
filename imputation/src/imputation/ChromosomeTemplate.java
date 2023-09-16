@@ -3,16 +3,13 @@ package imputation;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-import java.util.ArrayList;
 
 /***
  * Represents a template of possible allele in a chromosome
  */
 public class ChromosomeTemplate {
     private static final Random RNG = new Random();
-    public record Variant(List<Gene> variants){};
+    public record Variant(List<Gene> variants){}
     private final Variant[] variants;
 
     public ChromosomeTemplate(Variant[] variants) {
@@ -30,10 +27,10 @@ public class ChromosomeTemplate {
     }
 
     public static ChromosomeTemplate fromPair(ChromosomePair pair) {
-        int len = pair.first().sequence.length;
+        int len = pair.length();
         Variant[] variants = new Variant[len];
         for(int i = 0; i < len; i++) {
-            variants[i] = new Variant(List.of(pair.first().sequence[i], pair.second().sequence[i]));
+            variants[i] = new Variant(List.of(pair.firstPosition(i), pair.secondPosition(i)));
         }
 
         return new ChromosomeTemplate(variants);
