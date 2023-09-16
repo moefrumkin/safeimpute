@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 import static java.util.Arrays.stream;
 
 public class HaploidChromosome {
-    final Gene[] sequence;
+    public final Gene[] sequence;
     public HaploidChromosome(Gene[] sequence) throws IllegalArgumentException {
         this.sequence = sequence;
     }

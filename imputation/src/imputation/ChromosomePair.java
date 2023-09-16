@@ -14,8 +14,6 @@ public record ChromosomePair(HaploidChromosome first, HaploidChromosome second) 
         boolean cross = false;
         double cross_prob = avg_crosses / (int) len;
 
-        System.out.println("Cross prob: " + cross_prob);
-
         Gene[] first = new Gene[len];
         Gene[] second = new Gene[len];
 

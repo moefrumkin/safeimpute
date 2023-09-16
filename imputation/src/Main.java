@@ -11,13 +11,13 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Starting!");
 
-        ChromosomePair chromie = ChromosomePair.random(4);
+        ChromosomePair chromie = ChromosomePair.random(10);
         System.out.println(chromie);
 
         ChromosomeTemplate template = ChromosomeTemplate.fromPair(chromie);
 
         List<HaploidChromosome> genomes = Stream.generate(template::randomHaploid)
-                .limit(4).toList();
+                .limit(100).toList();
 
         Genepool genepool = new Genepool(genomes);
 
@@ -36,13 +36,16 @@ public class Main {
             System.out.println();
         }
 
-        double[][] lds = genepool.linkage_disequilibria(chromie);
-
-        for(double[] ld : lds) {
-            for (double v : ld) {
-                System.out.print(v + " ");
+        for(int i = 0; i < 100; i++) {
+            genepool = genepool.reproduce(0, 0.05, 5000);
+            System.out.printf("\nGen %d(%d)\n", i, genepool.genomes().size());
+            double[][] lds = genepool.linkage_disequilibria(chromie);
+            for (double[] ld : lds) {
+                for (double v : ld) {
+                    System.out.printf("%2.4f ", v);
+                }
+                System.out.println();
             }
-            System.out.println();
         }
     }
 }
