@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class MainController {
     
+    @GetMapping("/yeo")
     public String sayYeo(){
         return "YEOOO";
     }
