@@ -58,4 +58,14 @@ public class MainController {
 
         return ResponseEntity.ok("Parameters received: " + parameter1 + ", " + parameter2); // can include more parameters
     }
+
+    @GetMapping("/nearest")
+    public double getNearest() {
+        return 1;
+    }
+
+    @GetMapping("/best")
+    public double getBest() {
+        return 2;
+    }
 }
