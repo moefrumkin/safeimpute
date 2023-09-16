@@ -2,6 +2,7 @@ import { Slider } from "@/components/ui/slider"
 
 import Example from '@/components/Chart'
 import Call from '@/components/Call'
+import Post from '@/components/Post'
 
 export default function Home() {
   return (
@@ -16,7 +17,7 @@ export default function Home() {
       </div>
       <Slider defaultValue={[33]} max={100} step={1} />
       <Call />
-
+      <Post />
 
       </div>
 
