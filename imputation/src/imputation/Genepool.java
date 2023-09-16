@@ -28,8 +28,8 @@ public record Genepool(List<HaploidChromosome> genomes) {
         int ab_count = 0;
 
         for(HaploidChromosome genome: genomes) {
-            boolean afound = genome.sequence[a] == aMaj;
-            boolean bfound = genome.sequence[b] == bMaj;
+            boolean afound = genome.position(a) == aMaj;
+            boolean bfound = genome.position(b) == bMaj;
 
             if(afound) a_count++;
             if(bfound) b_count++;
@@ -44,12 +44,12 @@ public record Genepool(List<HaploidChromosome> genomes) {
     }
 
     public double[][] linkage_disequilibria(ChromosomePair variants) {
-        int genes = variants.first().sequence.length;
+        int genes = variants.length();
         double[][] lds = new double[genes][genes];
         for(int i = 0; i < genes; i++) {
             for(int j = 0; j < genes; j++) {
-                lds[i][j] = linkage_disequilibrium(i, j, variants.first().sequence[i],
-                        variants.first().sequence[j]);
+                lds[i][j] = linkage_disequilibrium(i, j, variants.firstPosition(i),
+                        variants.firstPosition(j));
             }
         }
 
