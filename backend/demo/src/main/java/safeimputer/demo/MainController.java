@@ -59,6 +59,13 @@ public class MainController {
         return ResponseEntity.ok("Parameters received: " + parameter1 + ", " + parameter2); // can include more parameters
     }
 
+    @PostMapping("/parametersUpload") 
+    public ResponseEntity<String> handleRequestForFloorValue(@RequestBody Map<String, Double> requestPayload) {
+        double parameter1 = requestPayload.get("parameter1");
+
+        return ResponseEntity.ok("Parameters received: " + parameter1); // can include more parameters
+    }
+    
     @GetMapping("/nearest")
     public double getNearest() {
         return 1;
