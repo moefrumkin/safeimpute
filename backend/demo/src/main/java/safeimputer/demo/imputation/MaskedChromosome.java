@@ -1,4 +1,4 @@
-package main.java.safeimputer.demo.imputation;
+package safeimputer.demo.imputation;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package main.java.safeimputer.demo.imputation;
+package safeimputer.demo.imputation;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -160,6 +160,29 @@ public record Genepool(List<HaploidChromosome> genomes) {
         }
 
         return Collections.max(tally.entrySet(), Map.Entry.comparingByValue()).getKey();
+    }
+
+    public Genepool distort(int number, ChromosomePair pair) {
+        double[] maps = maps(pair);
+
+        List<HaploidChromosome> noise = new ArrayList<>();
+
+        for(int i = 0; i < number; i++) {
+            Gene[] sequence = new Gene[genomeLength()];
+
+            for(int j = 0; j < genomeLength(); j++) {
+                if(RNG.nextDouble() < maps[j]) {
+                    sequence[i] = pair.secondPosition(i);
+                } else {
+                    sequence[i] = pair.firstPosition(i);
+                }
+            }
+
+            noise.add(new HaploidChromosome(sequence));
+        }
+
+        noise.addAll(genomes);
+        return new Genepool(noise);
     }
 
     public void save(String fileName) throws IOException {
