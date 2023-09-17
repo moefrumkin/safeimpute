@@ -33,7 +33,7 @@ public class MainController {
         Benchmark bench = new Benchmark.BenchmarkBuilder()
             .lowerNoise(dataStore.get("lowerBound"))
             .upperNoise(dataStore.get("upperBound"))
-            .strides(10) //(int) Math.floor(dataStore.get("steps"))
+            .strides((int) Math.floor(dataStore.get("steps"))) 
             .build();
 
         return bench.run();
