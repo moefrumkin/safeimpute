@@ -49,6 +49,6 @@ public class Main {
                 .strides(5) //(int) Math.floor(dataStore.get("steps"))
                 .build();
 
-        System.out.println(bench.run());
+        System.out.println(bench.run("backend/demo/src/main/resources/genepool"));
     }
 }

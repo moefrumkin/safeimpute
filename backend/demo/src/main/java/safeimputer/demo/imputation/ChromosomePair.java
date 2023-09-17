@@ -1,5 +1,9 @@
 package safeimputer.demo.imputation;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Random;
 import java.util.List;
 
@@ -87,5 +91,23 @@ public class ChromosomePair {
 
     public HaploidChromosome second() {
             return second;
+    }
+
+    public void save(String fileName) throws IOException {
+        FileWriter fileWriter = new FileWriter(fileName);
+
+
+        fileWriter.write(first.rawString());
+        fileWriter.write('\n');
+        fileWriter.write(second.rawString());
+
+        fileWriter.close();
+    }
+
+    public ChromosomePair load(String fileName) throws IOException {
+        try (var lineStream = Files.lines(Path.of(fileName))) {
+            List<HaploidChromosome> list = lineStream.map(HaploidChromosome::new).toList();
+            return new ChromosomePair(list.get(0), list.get(1));
+        }
     }
 }
