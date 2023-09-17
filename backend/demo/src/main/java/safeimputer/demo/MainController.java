@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class MainController {
 
     HashMap<String, Double> dataStore = new HashMap<String, Double>();
-    SafeimputeApplication i = new SafeimputeApplication();
+    safeimputer.demo.SafeimputeApplication i = new SafeimputeApplication();
     HashMap<Double, Double> t = i.test1();
     
     @GetMapping("/yeo")
