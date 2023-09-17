@@ -15,32 +15,34 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class MainController {
 
     HashMap<String, Double> dataStore = new HashMap<String, Double>();
+    SafeimputeApplication i = new SafeimputeApplication();
+    HashMap<Double, Double> t = i.test1();
     
     @GetMapping("/yeo")
     public Object sayYeo(){
         return "YEOOO";
     }
 
-    @GetMapping("/NumberOfPoints")
+    @GetMapping("/numberOfPoints")
     public int getNumberOfPoints() {
         return 1; // this will be subbed out for number of points for graph
     }
 
-    @GetMapping("/Points")
+    @GetMapping("/points")
     public HashMap<Double, Double> getPoints() { // points on graph
-        return new HashMap<Double, Double>();
+        return t;
     }
 
-    @GetMapping("/Summary")
+    @GetMapping("/summary")
     public HashMap<String, Double> getSummaryStatistics() { // could be used for important percentage points to be mentioned
         return new HashMap<String, Double>();
     }
 
     @PostMapping("/parametersUploadDouble") 
     public ResponseEntity<String> handleRequestDouble(@RequestBody Map<String, Double> requestPayload) {
-        double p1 = requestPayload.get("lowerBound");
-        double p2 = requestPayload.get("upperBound");
-        double p3 = requestPayload.get("steps");
+        double p1 = requestPayload.get("minPrivacy");
+        double p2 = requestPayload.get("maxPrivacy");
+        double p3 = requestPayload.get("numSteps");
 
         if (p1 < 0 || p1 >= 100 || p1 > p2 || p2 < 0 || p2 >= 100 || p3 < 0) {
             return ResponseEntity.ok("Fail");
@@ -80,7 +82,7 @@ public class MainController {
 
     @GetMapping("/nearest")
     public double getNearest() {
-        return 1.0;
+        return i.nearestToFloorValue(i.test1(), dataStore.get("floorValue"));
     }
 
     @GetMapping("/best")
