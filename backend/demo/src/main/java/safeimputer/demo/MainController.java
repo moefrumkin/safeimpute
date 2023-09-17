@@ -38,9 +38,9 @@ public class MainController {
 
     @PostMapping("/parametersUploadDouble") 
     public ResponseEntity<String> handleRequestDouble(@RequestBody Map<String, Double> requestPayload) {
-        double p1 = requestPayload.get("lowerBound");
-        double p2 = requestPayload.get("upperBound");
-        double p3 = requestPayload.get("steps");
+        double p1 = requestPayload.get("minPrivacy");
+        double p2 = requestPayload.get("maxPrivacy");
+        double p3 = requestPayload.get("numSteps");
 
         if (p1 < 0 || p1 >= 100 || p1 > p2 || p2 < 0 || p2 >= 100 || p3 < 0) {
             return ResponseEntity.ok("Fail");
@@ -80,7 +80,10 @@ public class MainController {
 
     @GetMapping("/nearest")
     public double getNearest() {
-        return 1.0;
+        SafeimputeApplication i = new SafeimputeApplication();
+        HashMap<Double, Double> t = i.test1();
+        //return i.nearestToFloorValue(t);
+        return 1;
     }
 
     @GetMapping("/best")
