@@ -66,7 +66,7 @@ public record HaploidChromosome(Gene[] sequence) {
         List<Optional<Gene>> res = new ArrayList<>();
 
         for(int i = 0; i < length(); i++) {
-            if(i % stride == 0) {
+            if(i % stride != 0) {
                 res.add(Optional.of(sequence[i]));
             } else {
                 res.add(Optional.empty());
