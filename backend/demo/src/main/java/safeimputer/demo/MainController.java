@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RestController
 public class MainController {
 
+    HashMap<String, Double> dataStore = new HashMap<String, Double>();
     
     @GetMapping("/yeo")
     public Object sayYeo(){
@@ -37,10 +38,18 @@ public class MainController {
 
     @PostMapping("/parametersUploadDouble") 
     public ResponseEntity<String> handleRequestDouble(@RequestBody Map<String, Double> requestPayload) {
-        double parameter1 = requestPayload.get("parameter1");
-        double parameter2 = requestPayload.get("parameter2");
+        double p1 = requestPayload.get("lowerBound");
+        double p2 = requestPayload.get("upperBound");
+        double p3 = requestPayload.get("steps");
 
-        return ResponseEntity.ok("Parameters received: " + parameter1 + ", " + parameter2); // can include more parameters
+        if (p1 < 0 || p1 >= 100 || p1 > p2 || p2 < 0 || p2 >= 100 || p3 < 0) {
+            return ResponseEntity.ok("Fail");
+        }
+        dataStore.put("lowerBound", p1);
+        dataStore.put("upperBound", p2);
+        dataStore.put("steps", p3);
+
+        return ResponseEntity.ok("Success"); // can include more parameters
     }
 
     @PostMapping("/parametersUploadString") 
@@ -61,9 +70,12 @@ public class MainController {
 
     @PostMapping("/parametersUploadFloorValue") 
     public ResponseEntity<String> handleRequestForFloorValue(@RequestBody Map<String, Double> requestPayload) {
-        double parameter1 = requestPayload.get("parameter1");
-
-        return ResponseEntity.ok("Parameters received: " + parameter1); // can include more parameters
+        double p1 = requestPayload.get("floorValue");
+        if (p1 < 0 || p1 >= 100) {
+            return ResponseEntity.ok("Fail");
+        }
+        dataStore.put("floorValue", p1);
+        return ResponseEntity.ok("Success"); // can include more parameters
     }
 
     @GetMapping("/nearest")
