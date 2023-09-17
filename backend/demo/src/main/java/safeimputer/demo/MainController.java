@@ -80,13 +80,10 @@ public class MainController {
         return ResponseEntity.ok("Success"); // can include more parameters
     }
 
-    @GetMapping("/nearest")
-    public double getNearest() {
-        return i.nearestToFloorValue(i.test1(), dataStore.get("floorValue"));
+    @GetMapping("/summaryStats")
+    public HashMap<String, Double> getSummaryStats() {
+        return i.sumStats(i.test1(), dataStore.get("floorValue"));
     }
 
-    @GetMapping("/best")
-    public double getBest() {
-        return 2.0;
-    }
+    
 }

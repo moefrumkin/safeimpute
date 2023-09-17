@@ -1,5 +1,8 @@
 package safeimputer.demo;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -34,17 +37,21 @@ public class SafeimputeApplication {
 		for (Map.Entry<Double, Double> entry : map.entrySet()) {
             Double key = entry.getKey();
             Double value = entry.getValue();
-            if (value > floorValue && key / value < best) {
+            if (value != 1 && value > floorValue && key / value < best) {
 				best = key / value;
 			}
         }
 		return best;
 	}
 
-	public double nearestToFloorValue(HashMap<Double, Double> map, double floorValue) {
+	public HashMap<String, Double> sumStats(HashMap<Double, Double> map, double floorValue) {
 		// function should just return the x coordinate of the best near floor point
+		HashMap<String, Double> ans = new HashMap<String, Double>();
 		double nearest = -1;
 		double difference = Double.MAX_VALUE;
+		double sum = 0;
+		double total = 0.0;
+		ArrayList<Double> list = new ArrayList<Double>();
 		for (Map.Entry<Double, Double> entry : map.entrySet()) {
             Double key = entry.getKey();
             Double value = entry.getValue();
@@ -52,8 +59,19 @@ public class SafeimputeApplication {
 				difference = value - floorValue;
 				nearest = key;
 			}
+			if (value > floorValue) {
+				sum += value;
+				total++;
+				list.add(value);
+			}
         }
-		return nearest;
+		Collections.sort(list);
+		ans.put("nearest", nearest);
+		ans.put("mean", sum / total);
+		ans.put("median", list.size() % 2 == 1 ? list.get(list.size() / 2) : (list.get(list.size() / 2) + list.get(list.size() / 2 - 1)) / 2);
+		ans.put("high", list.get(list.size() - 1));
+		ans.put("low", list.get(0));
+		return ans;
 	}
 	
 }
