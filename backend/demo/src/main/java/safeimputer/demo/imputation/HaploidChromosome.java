@@ -45,7 +45,7 @@ public record HaploidChromosome(Gene[] sequence) {
     }
 
     public String rawString() {
-        return stream(sequence).map(Gene::toString).collect(Collectors.joining("|"));
+        return stream(sequence).map(Gene::toString).collect(Collectors.joining(""));
     }
 
     public ChromosomePair mutate(double rate) {
@@ -91,7 +91,7 @@ public record HaploidChromosome(Gene[] sequence) {
 
     @Override
     public String toString() {
-        StringJoiner joiner = new StringJoiner("|");
+        StringJoiner joiner = new StringJoiner("");
 
         stream(sequence).map(Objects::toString).forEach(joiner::add);
 
