@@ -172,9 +172,9 @@ public record Genepool(List<HaploidChromosome> genomes) {
 
             for(int j = 0; j < genomeLength(); j++) {
                 if(RNG.nextDouble() < maps[j]) {
-                    sequence[i] = pair.secondPosition(i);
+                    sequence[j] = pair.secondPosition(i);
                 } else {
-                    sequence[i] = pair.firstPosition(i);
+                    sequence[j] = pair.firstPosition(i);
                 }
             }
 

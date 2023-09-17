@@ -1,5 +1,7 @@
 package safeimputer.demo.imputation;
 
+import safeimputer.demo.Benchmark;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -27,7 +29,7 @@ public class Main {
 
         System.out.println(Arrays.toString(genepool.maps(chromie)));
 
-        for(int i = 0; i < 500; i++) {
+        for(int i = 0; i < 0; i++) {
             pop_size = (int) (1.1 * pop_size);
             genepool = genepool.reproduce(0.5, pop_size);
             System.out.printf("\nGen %d: %s\n", i, genepool);
@@ -41,10 +43,12 @@ public class Main {
             System.out.println();
         }
 
-        try {
-            genepool.save("genepool2");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Benchmark bench = new Benchmark.BenchmarkBuilder()
+                .lowerNoise(0.1)
+                .upperNoise(0.5)
+                .strides(5) //(int) Math.floor(dataStore.get("steps"))
+                .build();
+
+        System.out.println(bench.run());
     }
 }

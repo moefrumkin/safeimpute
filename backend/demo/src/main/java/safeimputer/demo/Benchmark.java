@@ -11,7 +11,7 @@ import java.util.Map;
 public record Benchmark(int genomeLength, int genepoolSize, int generations, double lowerNoise, double upperNoise, int strides) {
     public static class BenchmarkBuilder {
         int genomeLength = 250;
-        int genepoolSize = 2500;
+        int genepoolSize = 200;
 
         int generations = 25;
 
@@ -51,12 +51,12 @@ public record Benchmark(int genomeLength, int genepoolSize, int generations, dou
             return this;
         }
 
-        Benchmark build() {
+        public Benchmark build() {
             return new Benchmark(genomeLength, genepoolSize, generations, lowerNoise, upperNoise, strides);
         }
     }
 
-    Map<Double, Double> run() {
+    public Map<Double, Double> run() {
         ChromosomePair chromie = HaploidChromosome.random(genomeLength).mutate(0.75);
         Genepool genepool = chromie.toGenepool();
 
