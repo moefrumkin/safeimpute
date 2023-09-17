@@ -5,6 +5,7 @@ import safeimputer.demo.imputation.Genepool;
 import safeimputer.demo.imputation.HaploidChromosome;
 import safeimputer.demo.imputation.MaskedChromosome;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,7 +57,7 @@ public record Benchmark(int genomeLength, int genepoolSize, int generations, dou
         }
     }
 
-    public Map<Double, Double> run() {
+    public Map<Double, Double> run(String savedir) {
         ChromosomePair chromie = HaploidChromosome.random(genomeLength).mutate(0.75);
         Genepool genepool = chromie.toGenepool();
 
@@ -64,6 +65,13 @@ public record Benchmark(int genomeLength, int genepoolSize, int generations, dou
 
         for(int i = 0; i < generations; i++) {
             genepool = genepool.reproduce(0.5, genepoolSize / (generations - i));
+        }
+
+        try {
+            genepool.save(savedir);
+            chromie.save(savedir + ".maj");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         for(double test = lowerNoise; test <= upperNoise; test += (upperNoise - lowerNoise) / strides) {
@@ -78,6 +86,13 @@ public record Benchmark(int genomeLength, int genepoolSize, int generations, dou
             }
 
             result.put(test, accuracy / distorted.size());
+
+            try {
+                genepool.save(String.format("%s.%1.3f", savedir, test));
+                chromie.save(String.format("%s.%1.3f.maj", savedir, test));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return result;

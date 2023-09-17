@@ -36,7 +36,7 @@ public class MainController {
             .upperNoise(dataStore.get("upperBound"))
             .strides((int) Math.floor(dataStore.get("steps"))) 
             .build();
-        data = bench.run();
+        data = bench.run("backend/demo/src/main/resources/genepool");
         return data;
     }
 
