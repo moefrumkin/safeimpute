@@ -2,12 +2,16 @@ package imputation;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Random;
 import java.util.StringJoiner;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.stream;
 
 public record HaploidChromosome(Gene[] sequence) {
+    private static final Random RNG = new Random();
     public HaploidChromosome(String code) {
         this(parse(code));
     }
@@ -41,6 +45,24 @@ public record HaploidChromosome(Gene[] sequence) {
         return new HaploidChromosome(Stream.generate(Gene::randomGene)
                 .limit(len)
                 .toArray(Gene[]::new));
+    }
+
+    public String rawString() {
+        return stream(sequence).map(Gene::toString).collect(Collectors.joining("|"));
+    }
+
+    public ChromosomePair mutate(double rate) {
+        Gene[] sequence = new Gene[length()];
+
+        for(int i = 0; i < length(); i++) {
+            if(RNG.nextDouble() < rate) {
+                sequence[i] = Gene.randomGene();
+            } else {
+                sequence[i] = this.sequence[i];
+            }
+        }
+
+        return new ChromosomePair(this, new HaploidChromosome(sequence));
     }
 
     @Override
