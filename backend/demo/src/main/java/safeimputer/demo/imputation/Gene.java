@@ -1,4 +1,4 @@
-package main.java.safeimputer.demo.imputation;
+package safeimputer.demo.imputation;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
