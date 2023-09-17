@@ -23,17 +23,17 @@ public class MainController {
         return "YEOOO";
     }
 
-    @GetMapping("/NumberOfPoints")
+    @GetMapping("/numberOfPoints")
     public int getNumberOfPoints() {
         return 1; // this will be subbed out for number of points for graph
     }
 
-    @GetMapping("/Points")
+    @GetMapping("/points")
     public HashMap<Double, Double> getPoints() { // points on graph
         return t;
     }
 
-    @GetMapping("/Summary")
+    @GetMapping("/summary")
     public HashMap<String, Double> getSummaryStatistics() { // could be used for important percentage points to be mentioned
         return new HashMap<String, Double>();
     }
