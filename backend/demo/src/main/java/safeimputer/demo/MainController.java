@@ -29,8 +29,14 @@ public class MainController {
     }
 
     @GetMapping("/points")
-    public HashMap<Double, Double> getPoints() { // points on graph
-        return t;
+    public Map<Double, Double> getPoints() { // points on graph
+        Benchmark bench = new Benchmark.BenchmarkBuilder()
+            .lowerNoise(dataStore.get("lowerBound"))
+            .upperNoise(dataStore.get("upperBound"))
+            .strides((int) Math.floor(dataStore.get("steps")))
+            .build();
+
+        return bench.run();
     }
 
     @GetMapping("/summary")
