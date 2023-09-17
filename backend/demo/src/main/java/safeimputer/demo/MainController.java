@@ -17,6 +17,7 @@ public class MainController {
     HashMap<String, Double> dataStore = new HashMap<String, Double>();
     safeimputer.demo.SafeimputeApplication i = new SafeimputeApplication();
     HashMap<Double, Double> t = i.test1();
+    Map<Double, Double> data = new HashMap<Double, Double>();
     
     @GetMapping("/yeo")
     public Object sayYeo(){
@@ -31,12 +32,12 @@ public class MainController {
     @GetMapping("/points")
     public Map<Double, Double> getPoints() { // points on graph
         Benchmark bench = new Benchmark.BenchmarkBuilder()
-            .lowerNoise(0.1)
-            .upperNoise(0.5)
-            .strides(5) //(int) Math.floor(dataStore.get("steps"))
+            .lowerNoise(dataStore.get("lowerBound"))
+            .upperNoise(dataStore.get("upperBound"))
+            .strides((int) Math.floor(dataStore.get("steps"))) 
             .build();
-
-        return bench.run();
+        data = bench.run();
+        return data;
     }
 
     @GetMapping("/summary")
@@ -88,7 +89,7 @@ public class MainController {
 
     @GetMapping("/summaryStats")
     public HashMap<String, Double> getSummaryStats() {
-        return i.sumStats(i.test1(), dataStore.get("floorValue"));
+        return i.sumStats(data, dataStore.get("floorValue"));
     }
 
     
