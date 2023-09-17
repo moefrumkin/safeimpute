@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class MainController {
 
     HashMap<String, Double> dataStore = new HashMap<String, Double>();
+    SafeimputeApplication i = new SafeimputeApplication();
+    HashMap<Double, Double> t = i.test1();
     
     @GetMapping("/yeo")
     public Object sayYeo(){
@@ -28,7 +30,7 @@ public class MainController {
 
     @GetMapping("/Points")
     public HashMap<Double, Double> getPoints() { // points on graph
-        return new HashMap<Double, Double>();
+        return t;
     }
 
     @GetMapping("/Summary")
@@ -80,10 +82,7 @@ public class MainController {
 
     @GetMapping("/nearest")
     public double getNearest() {
-        SafeimputeApplication i = new SafeimputeApplication();
-        HashMap<Double, Double> t = i.test1();
-        //return i.nearestToFloorValue(t);
-        return 1;
+        return i.nearestToFloorValue(t, dataStore.get("floorValue"));
     }
 
     @GetMapping("/best")
