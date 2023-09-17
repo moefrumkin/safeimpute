@@ -91,7 +91,7 @@ public record HaploidChromosome(Gene[] sequence) {
 
     @Override
     public String toString() {
-        StringJoiner joiner = new StringJoiner("|");
+        StringJoiner joiner = new StringJoiner("");
 
         stream(sequence).map(Objects::toString).forEach(joiner::add);
 
