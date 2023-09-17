@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @SpringBootApplication
 public class SafeimputeApplication {
 
+	HashMap<Double, Double> testM = new HashMap<Double, Double>();
+	testM.put(0.90, 0.10);
+
 	public static void main(String[] args) {
 		SpringApplication.run(SafeimputeApplication.class, args);
 	}

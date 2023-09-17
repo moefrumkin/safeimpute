@@ -3,49 +3,49 @@ import imputation.ChromosomeTemplate;
 import imputation.Genepool;
 import imputation.HaploidChromosome;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("Starting!");
 
-        ChromosomePair chromie = ChromosomePair.random(10);
+        ChromosomePair chromie = HaploidChromosome.random(500).mutate(0.75);
         System.out.println(chromie);
 
-        ChromosomeTemplate template = ChromosomeTemplate.fromPair(chromie);
+        ChromosomeTemplate template = ChromosomeTemplate.fromPair(chromie, 16, 4);
 
-        List<HaploidChromosome> genomes = Stream.generate(template::randomHaploid)
-                .limit(100).toList();
+        int pop_size = 20;
 
-        Genepool genepool = new Genepool(genomes);
+        Genepool genepool = template.randomPool(20);//Genepool.weighted(chromie, 7, 3);
 
-        System.out.println("\n");
+        System.out.println(genepool);
 
-        for(HaploidChromosome chrom : genomes) {
-            System.out.println(chrom);
-        }
+        System.out.println(Arrays.toString(genepool.maps(chromie)));
 
-        double[][] matches = genepool.matches();
+        for(int i = 0; i < 500; i++) {
+            pop_size = (int) (1.1 * pop_size);
+            genepool = genepool.reproduce(0.25, pop_size);
+            System.out.printf("\nGen %d: %s\n", i, genepool);
+            double[] lds = genepool.ldByDistance(chromie);
+            String ldformat = Arrays.stream(lds)
+                    .mapToObj(d -> String.format("%1.5f ", d))
+                    .collect(Collectors.joining());
+            System.out.println(ldformat);
+            System.out.println(Arrays.toString(genepool.maps(chromie)));
 
-        for (double[] match : matches) {
-            for (int j = 0; j < matches.length; j++) {
-                System.out.print(match[j] + " ");
-            }
             System.out.println();
         }
 
-        for(int i = 0; i < 100; i++) {
-            genepool = genepool.reproduce(0, 0.05, 5000);
-            System.out.printf("\nGen %d(%d)\n", i, genepool.genomes().size());
-            double[][] lds = genepool.linkage_disequilibria(chromie);
-            for (double[] ld : lds) {
-                for (double v : ld) {
-                    System.out.printf("%2.4f ", v);
-                }
-                System.out.println();
-            }
+        try {
+            genepool.save("genepool2");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
