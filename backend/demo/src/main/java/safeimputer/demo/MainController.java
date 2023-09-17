@@ -35,7 +35,7 @@ public class MainController {
         return new HashMap<String, Double>();
     }
 
-    @PostMapping("/parametersUpload") 
+    @PostMapping("/parametersUploadDouble") 
     public ResponseEntity<String> handleRequestDouble(@RequestBody Map<String, Double> requestPayload) {
         double parameter1 = requestPayload.get("parameter1");
         double parameter2 = requestPayload.get("parameter2");
@@ -43,7 +43,7 @@ public class MainController {
         return ResponseEntity.ok("Parameters received: " + parameter1 + ", " + parameter2); // can include more parameters
     }
 
-    @PostMapping("/parametersUpload") 
+    @PostMapping("/parametersUploadString") 
     public ResponseEntity<String> handleRequestString(@RequestBody Map<String, String> requestPayload) {
         String parameter1 = requestPayload.get("parameter1");
         String parameter2 = requestPayload.get("parameter2");
@@ -51,7 +51,7 @@ public class MainController {
         return ResponseEntity.ok("Parameters received: " + parameter1 + ", " + parameter2); // can include more parameters
     }
 
-    @PostMapping("/parametersUpload") 
+    @PostMapping("/parametersUploadInteger") 
     public ResponseEntity<String> handleRequestInteger(@RequestBody Map<String, Integer> requestPayload) {
         int parameter1 = requestPayload.get("parameter1");
         int parameter2 = requestPayload.get("parameter2");
@@ -59,20 +59,20 @@ public class MainController {
         return ResponseEntity.ok("Parameters received: " + parameter1 + ", " + parameter2); // can include more parameters
     }
 
-    @PostMapping("/parametersUpload") 
+    @PostMapping("/parametersUploadFloorValue") 
     public ResponseEntity<String> handleRequestForFloorValue(@RequestBody Map<String, Double> requestPayload) {
         double parameter1 = requestPayload.get("parameter1");
 
         return ResponseEntity.ok("Parameters received: " + parameter1); // can include more parameters
     }
-    
+
     @GetMapping("/nearest")
     public double getNearest() {
-        return 1;
+        return 1.0;
     }
 
     @GetMapping("/best")
     public double getBest() {
-        return 2;
+        return 2.0;
     }
 }
