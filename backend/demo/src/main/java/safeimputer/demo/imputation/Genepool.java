@@ -35,6 +35,8 @@ public record Genepool(List<HaploidChromosome> genomes) {
         return genomes.get(0).length();
     }
 
+    public int size() { return genomes.size(); }
+
     private HaploidChromosome randomGenome() {
         return genomes.get(RNG.nextInt(genomes.size()));
     }
