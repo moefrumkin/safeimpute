@@ -3,9 +3,7 @@ package imputation;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public record Genepool(List<HaploidChromosome> genomes) {
@@ -137,6 +135,31 @@ public record Genepool(List<HaploidChromosome> genomes) {
                 count++;
 
         return (double) count / genomes.size();
+    }
+
+    public HaploidChromosome mostLikelyImpute(MaskedChromosome in) {
+        Gene[] res = new Gene[in.length()];
+
+        for(int i = 0; i < in.length(); i++) {
+            if(in.position(i).isPresent()) {
+                res[i] = in.position(i).get();
+            } else {
+                res[i] = mostFrequent(i);
+            }
+        }
+
+        return new HaploidChromosome(res);
+    }
+
+    public Gene mostFrequent(int position) {
+        Map<Gene, Integer> tally = new HashMap<>();
+
+        for(HaploidChromosome genome: genomes) {
+            tally.putIfAbsent(genome.position(position), 0);
+            tally.compute(genome.position(position), (gene, count) -> count + 1);
+        }
+
+        return Collections.max(tally.entrySet(), Map.Entry.comparingByValue()).getKey();
     }
 
     public void save(String fileName) throws IOException {

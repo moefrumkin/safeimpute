@@ -1,9 +1,6 @@
 package imputation;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Random;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -63,6 +60,20 @@ public record HaploidChromosome(Gene[] sequence) {
         }
 
         return new ChromosomePair(this, new HaploidChromosome(sequence));
+    }
+
+    public MaskedChromosome mask(int stride) {
+        List<Optional<Gene>> res = new ArrayList<>();
+
+        for(int i = 0; i < length(); i++) {
+            if(i % stride == 0) {
+                res.add(Optional.of(sequence[i]));
+            } else {
+                res.add(Optional.empty());
+            }
+        }
+
+        return new MaskedChromosome(res);
     }
 
     @Override
