@@ -82,7 +82,7 @@ public class MainController {
 
     @GetMapping("/nearest")
     public double getNearest() {
-        return i.nearestToFloorValue(t, dataStore.get("floorValue"));
+        return i.nearestToFloorValue(i.test1(), dataStore.get("floorValue"));
     }
 
     @GetMapping("/best")
