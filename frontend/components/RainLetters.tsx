@@ -58,7 +58,7 @@ const RainLetters = () => {
   const ref = useRef<HTMLCanvasElement>(null);
   // const keyName = "mrl-" + props.key
   // const thisClassNes = "mrl-container" + props.custom_class
-  useEffect(() => renderRain(ref))
+  useEffect(() => renderRain(ref), [])
 
   return (
     <>

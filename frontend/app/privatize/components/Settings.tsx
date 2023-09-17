@@ -16,13 +16,14 @@ type InputData = {
 
 
 type SettingsProps = {
-  buttonHandler: (n: string) => void;
+  onResponseOk: () => void;
 };
 
 
 
 
-const Settings = ({ buttonHandler }: SettingsProps) => {
+
+const Settings = ({ onResponseOk }: SettingsProps) => {
   const minPrivacyRef = useRef<HTMLInputElement>(null);
   const maxPrivacyRef = useRef<HTMLInputElement>(null);
   const numStepsRef = useRef<HTMLInputElement>(null);
@@ -32,6 +33,8 @@ const Settings = ({ buttonHandler }: SettingsProps) => {
     maxPrivacy: true,
     numSteps: true,
   });
+
+
   
 
   const validateInput = (data: InputData) => {
@@ -65,9 +68,6 @@ const Settings = ({ buttonHandler }: SettingsProps) => {
     return isValid
   }
 
-  const invalidDataHandler = () => {
-
-  }
 
   const handleClick = async () => {
 
@@ -93,22 +93,19 @@ const Settings = ({ buttonHandler }: SettingsProps) => {
         )
         if (response.ok) {
           console.log("data posted successfully")
+          onResponseOk()
         }  
       } catch(error) {
         console.log("error posting data: ", error)
       }
-      if(minPrivacyRef.current) {
-        buttonHandler(minPrivacyRef.current.value)
-      }
-    } else {
-      invalidDataHandler()
     }
   }
+
   
 
   return (
     
-    <div className="h-full text-secondary">
+    <div className=" text-secondary">
       <div className="h-full bg-primary border border-background/20 rounded-sm justify-center p-4 max-w-md min-w-max mr-6">
         <div className="font-semibold text-2xl">
           Settings
@@ -138,7 +135,7 @@ const Settings = ({ buttonHandler }: SettingsProps) => {
             <div className="z-50  rounded-md bg-black/20 text-popover-foreground shadow-md outline-none animate-in  fade-in-0  zoom-in-80 slide-in-from-left-2 absolute ml-72  p-1 text-sm font-light text-red-800 border-red-800 border">please enter a valid value</div>
             )}
           </div>
-          <button className="left-0 border bg-black/20 border-white/50 p-2 rounded-sm transition duration-200 hover:bg-black/30" onClick={handleClick}>confirm</button>
+          <button className="left-0 border bg-black/20 border-white/50 p-2 mt-8 rounded-sm transition duration-200 hover:bg-black/30" onClick={handleClick}>confirm</button>
 
         </div>
       </div>
@@ -146,7 +143,7 @@ const Settings = ({ buttonHandler }: SettingsProps) => {
       </div>
     </div>
   )
+  }
 
-}
 
 export default Settings

@@ -4,35 +4,22 @@ import React, { PureComponent, useEffect, useState } from 'react';
 import { AreaChart, Area, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
-type ChartProps = {
-  chartVals: number;
-};
 
 
-export default function Chart({ chartVals }: ChartProps) {
 
-  const [chartData, setChartData] = useState<{x: number, y: number}[]>([])
+export default function Chart({ chartData }) {
+
 
 
   useEffect(() => {
     const getChartData = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/points")
-        if (response.ok) {
-          const data = await response.json()
-          const dataArray = Object.entries(data).map(([x, y]) => ({x, y}))
-          setChartData(dataArray)
-          console.log(dataArray)
-        }
-      } catch (error) {
-        console.log("error fetching chart data", error)
-      }
+
     }
 
     getChartData()
 
 
-  })
+  }, [])
 
 
       // {
@@ -49,7 +36,7 @@ export default function Chart({ chartVals }: ChartProps) {
 
 
   return (
-  <AreaChart width={500} height={250} data={chartData}
+  <AreaChart width={650} height={250} data={chartData}
     margin={{ top: 10, right: 60, left: 0, bottom: 0 }}>
 
     <defs>

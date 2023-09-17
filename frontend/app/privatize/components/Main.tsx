@@ -10,12 +10,25 @@ import { useState } from "react"
 
 
 const Main = () => {
-  const [num, setNum] = useState<number>(0)
 
-  const buttonHandler = (n: string) => {
-    const parsedInt = parseInt(n, 10);
-    if (!isNaN(parsedInt)) {
-      setNum(parsedInt);
+  const [chartData, setChartData] = useState<{x: number, y: number}[]>([])
+
+  const onResponseOk = async () => {
+    try {
+      console.log("TRYING 1")
+      const response = await fetch("http://localhost:8080/points")
+      console.log("TRYING")
+      if (response.ok) {
+        console.log("WORKS")
+        const data = await response.json()
+        const dataArray = Object.entries(data)
+                                .map(([x, y]) => ({x, y}))
+                                .sort((a, b) => a.x - b.x)
+        setChartData(dataArray)
+        console.log(dataArray)
+      }
+    } catch (error) {
+      console.log("error fetching chart data", error)
     }
   }
 
@@ -23,10 +36,18 @@ const Main = () => {
 
 
       <div className='w-full h-full max-w-6xl'>
-        <div className="w-full flex flex-row justify-between">
-          <Settings buttonHandler={buttonHandler}/>
-          <div className="bg-primary border border-background/20 rounded-sm p-10 mx-auto w-full">
-            <Chart chartVals={num}/>
+        <div className="w-full flex flex-row justify-between text-secondary">
+          <Settings onResponseOk={onResponseOk}/>
+          <div className="bg-primary border border-background/20 rounded-sm align-middle pt-5 pr-10 pl-0 mx-auto w-full flex  text-center ">
+            <div className="-rotate-90 h-min text-secondary my-auto -mr-6">Accuracy</div>
+            <div className="flex flex-col mb-4">
+              <div className="text-left font-semibold text-2xl mb-2">
+                % Noise VS Accuracy
+              </div>
+              <Chart chartData={chartData}/>
+              <div className="text-secondary">% Noise</div>
+            </div>
+
           </div>
         </div>
         <div className="pt-6 w-full">
