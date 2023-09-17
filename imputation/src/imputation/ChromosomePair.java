@@ -1,6 +1,7 @@
 package imputation;
 
 import java.util.Random;
+import java.util.List;
 
 public class ChromosomePair {
     public static Random RNG = new Random();
@@ -43,6 +44,10 @@ public class ChromosomePair {
                 new HaploidChromosome(second));
     }
 
+    public static ChromosomePair cross(HaploidChromosome first, HaploidChromosome second, double avg_crosses) {
+            return new ChromosomePair(first, second).cross(avg_crosses);
+    }
+
     public double match() {
         int matches = 0;
         for(int gene = 0; gene < first.length(); gene++)
@@ -67,6 +72,10 @@ public class ChromosomePair {
         return new ChromosomePair(first, second).match();
     }
 
+    public Genepool toGenepool() {
+            return new Genepool(List.of(first, second));
+    }
+
     @Override
     public String toString() {
         return first.toString() + '\n' + second.toString();
@@ -74,5 +83,9 @@ public class ChromosomePair {
 
     public HaploidChromosome first() {
         return first;
+    }
+
+    public HaploidChromosome second() {
+            return second;
     }
 }
