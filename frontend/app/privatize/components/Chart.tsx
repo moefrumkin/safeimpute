@@ -1,6 +1,6 @@
 'use client'
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useEffect, useState } from 'react';
 import { AreaChart, Area, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
@@ -11,22 +11,36 @@ type ChartProps = {
 
 export default function Chart({ chartVals }: ChartProps) {
 
-
-  const data = []
-  for (let i = 0; i < chartVals; i++){
-    
-    const uv_rand = Math.floor(Math.random() * 5000)
-    const pv_rand = Math.floor(Math.random() * 5000)
+  const [chartData, setChartData] = useState<{x: number, y: number}[]>([])
 
 
-    data.push(
-      {
-        name: 'Page G',
-        uv: uv_rand,
-        pv: pv_rand,
+  useEffect(() => {
+    const getChartData = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/points")
+        if (response.ok) {
+          const data = await response.json()
+          const dataArray = Object.entries(data).map(([x, y]) => ({x, y}))
+          setChartData(dataArray)
+          console.log(dataArray)
+        }
+      } catch (error) {
+        console.log("error fetching chart data", error)
       }
-    )
-  }
+    }
+
+    getChartData()
+
+
+  })
+
+
+      // {
+      //   name: 'Page G',
+      //   uv: uv_rand,
+      //   pv: pv_rand,
+      // }
+   
 
 
 
@@ -35,7 +49,7 @@ export default function Chart({ chartVals }: ChartProps) {
 
 
   return (
-  <AreaChart width={500} height={250} data={data}
+  <AreaChart width={500} height={250} data={chartData}
     margin={{ top: 10, right: 60, left: 0, bottom: 0 }}>
 
     <defs>
@@ -51,13 +65,13 @@ export default function Chart({ chartVals }: ChartProps) {
     </defs>
     <CartesianGrid strokeDasharray="" stroke='#bfbfbf'/>
 
-    <XAxis dataKey="name" />
+    <XAxis dataKey="x" />
     <YAxis />
     
     <Tooltip />
-    <Area type="linear" dataKey="pv" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPv)" strokeWidth="3"/>
-    <Area type="linear" dataKey="uv" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" strokeWidth="3"/>
+    <Area type="linear" dataKey="y" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPv)" strokeWidth="3"/>
 
 
-  </AreaChart>)
+  </AreaChart>
+  )
 }
