@@ -44,7 +44,7 @@ public class SafeimputeApplication {
 		return best;
 	}
 
-	public HashMap<String, Double> sumStats(HashMap<Double, Double> map, double floorValue) {
+	public HashMap<String, Double> sumStats(Map<Double, Double> map, double floorValue) {
 		// function should just return the x coordinate of the best near floor point
 		HashMap<String, Double> ans = new HashMap<String, Double>();
 		double nearest = -1;
