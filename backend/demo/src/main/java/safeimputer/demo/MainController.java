@@ -31,9 +31,9 @@ public class MainController {
     @GetMapping("/points")
     public Map<Double, Double> getPoints() { // points on graph
         Benchmark bench = new Benchmark.BenchmarkBuilder()
-            .lowerNoise(dataStore.get("lowerBound"))
-            .upperNoise(dataStore.get("upperBound"))
-            .strides((int) Math.floor(dataStore.get("steps")))
+            .lowerNoise(0.1)
+            .upperNoise(0.5)
+            .strides(5) //(int) Math.floor(dataStore.get("steps"))
             .build();
 
         return bench.run();
