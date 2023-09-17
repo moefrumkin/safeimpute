@@ -77,7 +77,7 @@ public record Benchmark(int genomeLength, int genepoolSize, int generations, dou
                 accuracy += ChromosomePair.match(imputed, genome);
             }
 
-            result.put(test, accuracy / genepoolSize);
+            result.put(test, accuracy / distorted.size());
         }
 
         return result;
