@@ -60,9 +60,6 @@ const Settings = ({ buttonHandler }: SettingsProps) => {
       newInputValidity.numSteps = true; 
     }
   
-    if (isValid) {
-
-    }
 
     setInputValidity(newInputValidity);
     return isValid
@@ -85,7 +82,7 @@ const Settings = ({ buttonHandler }: SettingsProps) => {
     if (validated) {
       try {
         const response = await fetch (
-          "http://localhost:8080/parametersUpload",
+          "http://localhost:8080/parametersUploadDouble",
           {
             method: "POST",
             headers: {
@@ -106,7 +103,7 @@ const Settings = ({ buttonHandler }: SettingsProps) => {
     } else {
       invalidDataHandler()
     }
-    }
+  }
   
 
   return (
