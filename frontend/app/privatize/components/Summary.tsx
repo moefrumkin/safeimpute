@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 
 type SummaryData = {
-  nearest: number | null;
-  mean: number | null;
-  median: number | null;
-  high: number | null;
-  low: number | null;
+  nearest: string | null;
+  mean: string | null;
+  median: string | null;
+  high: string | null;
+  low: string | null;
 }
 
 const Summary = () => {
@@ -50,8 +50,13 @@ const Summary = () => {
       if (response.ok) {
         console.log("successfully fetched nearest", response)
         const data = await response.json()
-        console.log("data", data)
-        setSummaryData(data)
+        setSummaryData({
+          "nearest": (data.nearest * 100).toFixed(2) + "%",
+          "mean": (data.mean * 100).toFixed(2) + "%",
+          "median": (data.median * 100).toFixed(2) + "%",
+          "high": (data.high * 100).toFixed(2) + "%",
+          "low": (data.low * 100).toFixed(2) + "%"
+        });
       }
     } catch(error) {
       console.log("error fatching nearest:", error)
@@ -75,11 +80,11 @@ const Summary = () => {
         <div>
           <div className="p-4">
             <div className="m-2">
-              Nearest: {summaryData.nearest}
+            <p className="font-semibold">Nearest % Noise to Point: </p> {summaryData.nearest}
             </div>
-            <div className="flex m-2 align-middle left-0 truncate">
-              <p className="self-center ">Floor</p>
-              <input ref={floorRef} className="ml-6 p-1 rounded-sm bg-white/10 border w-1/2 left-0 "></input>
+            <div className=" m-2 align-middle left-0 truncate">
+              <p className="self-center font-semibold">Floor</p>
+              <input ref={floorRef} className="mt-1 p-1 rounded-sm bg-white/10 border w-1/2 left-0 "></input>
               <button className="left-0 border bg-black/20 border-white/50 p-1 ml-6 rounded-sm transition duration-200 hover:bg-black/30" onClick={handleClick}>confirm</button>
             </div>
             <div className="opacity-20 text-m pl-2">The lowest accuracy the summary statistics will include.</div>
@@ -89,20 +94,20 @@ const Summary = () => {
         <div>
           <div className="p-4">
             <div className="m-2">
-              Mean: {summaryData.mean}
+            <p className="font-semibold">Mean: </p> {summaryData.mean}
             </div>
             <div className="m-2">
-              Median: {summaryData.median}
+            <p className="font-semibold">Median: </p> {summaryData.median}
             </div>
           </div>
         </div>
         <div>
           <div className="p-4">
-              <div className="m-2">
-                High: {summaryData.high}
+              <div className="m-2 ">
+              <p className="font-semibold">High: </p> {summaryData.high}
               </div>
               <div className="m-2">
-                Low: {summaryData.low}
+                <p className="font-semibold">Low: </p>{summaryData.low}
               </div>
           </div>
         </div>

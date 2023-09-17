@@ -72,9 +72,9 @@ const Settings = ({ onResponseOk }: SettingsProps) => {
   const handleClick = async () => {
 
     const inputData = {
-      minPrivacy: minPrivacyRef.current ? parseInt(minPrivacyRef.current.value) : null,
-      maxPrivacy: maxPrivacyRef.current ? parseInt(maxPrivacyRef.current.value) : null,
-      numSteps: maxPrivacyRef.current ? parseInt(maxPrivacyRef.current.value) : null,
+      minPrivacy: minPrivacyRef.current ? parseFloat(minPrivacyRef.current.value) : null,
+      maxPrivacy: maxPrivacyRef.current ? parseFloat(maxPrivacyRef.current.value) : null,
+      numSteps: maxPrivacyRef.current ? parseFloat(numStepsRef.current.value) : null,
     }
 
     const validated = validateInput(inputData)
@@ -92,7 +92,7 @@ const Settings = ({ onResponseOk }: SettingsProps) => {
           }
         )
         if (response.ok) {
-          console.log("data posted successfully")
+          console.log("data posted successfully", JSON.stringify(inputData), inputData)
           onResponseOk()
         }  
       } catch(error) {
